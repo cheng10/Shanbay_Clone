@@ -7,8 +7,9 @@
 基于Python和Django框架， Web页面基于bootstrap
 
 #Models
-User: username, passwd, vocab_book, words_perday, known_words
+Learner: user(username, passwd), vocab_book, words_perday
 Word: id, text, desc, sentence, note
 Note: id, text, author
-Wordlist: vocab_book, word
-Known_words: user, word
+VocaBook: bookname, word
+KnownWords: learner, word
+LearningWords: learner, word, level
