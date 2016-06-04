@@ -12,4 +12,7 @@ Word: id, text, desc, sentence, note
 Note: id, text, author
 VocaBook: bookname, word
 KnownWords: learner, word
-LearningWords: learner, word, level
+LearningWords: learner, word, level, days
+
+#Note
+Maybe a repeated days counter to count
