@@ -18,11 +18,12 @@ from django.contrib import admin
 
 
 urlpatterns = [
+    url(r'^$', 'words.views.home'),
     url(r'^admin/', admin.site.urls),
     url(r'^words/', 'words.views.words'),
-    url(r'^$', 'words.views.home'),
     # url(r'^word/(?P<id>\d+)/$', 'words.views.detail', name='detail'),
     url(r'^word/(?P<word_name>[a-z]+)/$', 'words.views.word_detail', name='word_detail'),
-    # url(r'^word/(?P<id>\d+)/$', 'words.views.detail', name='detail'),
+    url(r'^signup/$', 'words.views.register', name='signup'),
+    url(r'^login/$', 'words.views.login', name='login'),
     url(r'^test/$', 'words.views.test'),
 ]
