@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^words/', 'words.views.words'),
     url(r'^$', 'words.views.home'),
-    # my_args : one or multiple digits
-    url(r'^(?P<my_args>\d+)/$', 'words.views.detail', name='detail'),
+    url(r'^word/(?P<id>\d+)/$', 'words.views.detail', name='detail'),
+    # url(r'^word/(?P<id>\d+)/$', 'words.views.detail', name='detail'),
     url(r'^test/$', 'words.views.test'),
 ]

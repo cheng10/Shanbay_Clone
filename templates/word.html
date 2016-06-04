@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <h1>{{word}}</h1>
+        <p>word: {{word}}</p>
+        <p>desc: {{word.desc}}</p>
+        <p>sentence: {{word.sentence}}</p>
+    </div>
+
+    {% include "duoshuo.html" %}
+
+{% endblock %}

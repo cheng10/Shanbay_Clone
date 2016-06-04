@@ -5,6 +5,11 @@
     <div class="jumbotron">
         <h1> Home </h1>
         <p>{{ word_list }}</p>
+        {% for word in word_list %}
+            <a href="{%  url 'detail'  id=word.id %}">
+                {{ word }}
+            </a>
+        {% endfor %}
     </div>
 
 {% endblock %}

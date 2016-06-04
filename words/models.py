@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 # Create your models here.
@@ -21,8 +22,15 @@ class Word(models.Model):
     sentence = models.TextField()
     note = models.ForeignKey('Note', on_delete=models.CASCADE, blank=True, null=True)
 
+    def get_absolute_url(self):
+        path = reverse('detail', kwargs={'id': self.id})
+        return "localhost:8080%s" % path
+
     def __unicode__(self):
         return self.text
+
+    class Meta:
+        ordering = ['-text']
 
 
 class Note(models.Model):
