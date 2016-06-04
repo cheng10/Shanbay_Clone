@@ -30,7 +30,7 @@ class Word(models.Model):
         return self.text
 
     class Meta:
-        ordering = ['-text']
+        ordering = ['text']
 
 
 class Note(models.Model):

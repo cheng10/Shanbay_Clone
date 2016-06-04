@@ -15,16 +15,21 @@ def words(request):
     word_list = Word.objects.all()
     return render(request, 'words.html', {'word_list': word_list})
 
-def detail(request, id):
+
+def word_detail(request, word_name):
     try:
-        word = Word.objects.get(id=str(id))
+        word = Word.objects.get(text=word_name)
     except Word.DoesNotExist:
         raise Http404()
     return render(request, 'word.html', {'word': word})
 
-    # word = Word.objects.all()[int(my_args)]
-    # mystr = ("text = %s, desc = %s, sentence = %s" % (word.text, word.desc, word.sentence))
-    # return HttpResponse(mystr)
+
+# def detail(request, id):
+#     try:
+#         word = Word.objects.get(id=str(id))
+#     except Word.DoesNotExist:
+#         raise Http404()
+#     return render(request, 'word.html', {'word': word})
 
 
 def test(request):

@@ -3,13 +3,14 @@
 {% block content %}
 
     <div class="jumbotron">
-        <h1> Home </h1>
-        <p>{{ word_list }}</p>
+        <h1> Words </h1>
+        <p>
         {% for word in word_list %}
-            <a href="{%  url 'detail'  id=word.id %}">
+            <a href="{%  url 'word_detail'  word_name=word.text %}">
                 {{ word }}
             </a>
         {% endfor %}
+        </p>
     </div>
 
 {% endblock %}
