@@ -6,7 +6,9 @@ from datetime import datetime
 
 # Create your views here.
 def home(request):
-    return HttpResponse("Hello World!")
+    word_list = Word.objects.all()
+    return render(request, 'home.html', {'word_list': word_list})
+
 
 
 def detail(request, my_args):
