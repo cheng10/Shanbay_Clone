@@ -55,8 +55,8 @@ def populate():
         book.save()
 
     # Print out what we have added to the user.
-    for w in Word.objects.all():
-        print(w.text)
+    # for w in Word.objects.all():
+    #     print(w.text)
 
 
 def add_word(text, desc, sentence):

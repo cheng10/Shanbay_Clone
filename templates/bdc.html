@@ -9,9 +9,20 @@
     </script>
 
     <div class="jumbotron">
-        <h1>BDC</h1>
-        <p>Welcome! {{user.username}}</p>
-        <p>{{current_time}}</p>
+        <div id="bdc_info">
+            <h1>BDC</h1>
+            <p>
+                <span>Welcome! {{learner.user.username}}!</span><br/>
+                <sapn>You book is {{ learner.vocab_book.bookname }}.</sapn><br/>
+                <span>Today You have to memorize {{ learner.words_perday }} words.</span><br/>
+                <span>You have finished {{ learner.words_finished }} words.</span><br/>
+                <span>{{current_time}}</span>
+            </p>
+
+        </div>
+        <div id="bdc_main">
+
+        </div>
     </div>
 
 {% endblock %}

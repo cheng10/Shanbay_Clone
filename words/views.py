@@ -51,7 +51,13 @@ def word_detail(request, word_name):
 
 @login_required()
 def bdc(request):
-    return render(request, 'bdc.html', {'current_time': datetime.now()})
+    # redirect admin to admin page
+    try:
+        learner = Learner.objects.get(user=request.user)
+    except Learner.DoesNotExist:
+        return HttpResponseRedirect('/admin')
+    else:
+        return render(request, 'bdc.html', {'learner': learner, 'current_time': datetime.now()})
 
 
 def about(request):

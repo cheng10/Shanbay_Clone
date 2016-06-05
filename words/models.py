@@ -11,6 +11,7 @@ class Learner(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     vocab_book = models.ForeignKey('VocaBook', on_delete=models.CASCADE, blank=True)
     words_perday = models.PositiveIntegerField(default=0)
+    words_finished = models.PositiveIntegerField(default=0)
 
     def __unicode__(self):
         return self.user.username
