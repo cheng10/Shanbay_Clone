@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import render
@@ -11,6 +12,7 @@ from datetime import datetime
 
 # Create your views here.
 def home(request):
+    # restrict access
     if request.user.is_authenticated():
         # redirect admin to admin page
         try:
@@ -136,3 +138,16 @@ def user_login(request):
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
         return render(request, 'login.html', {})
+
+
+@login_required
+def restricted(request):
+    return HttpResponse("Since you're logged in, you can see this text!")
+
+
+@login_required
+def user_logout(request):
+    # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+    # Take the user back to the homepage.
+    return HttpResponseRedirect('/')

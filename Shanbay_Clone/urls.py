@@ -25,5 +25,7 @@ urlpatterns = [
     url(r'^word/(?P<word_name>[a-z]+)/$', 'words.views.word_detail', name='word_detail'),
     url(r'^signup/$', 'words.views.register', name='signup'),
     url(r'^login/$', 'words.views.user_login', name='login'),
+    url(r'^logout/$', 'words.views.user_logout', name='logout'),
     url(r'^test/$', 'words.views.test'),
+    url(r'^restricted/', 'words.views.restricted', name='restricted'),
 ]
