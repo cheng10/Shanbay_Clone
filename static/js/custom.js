@@ -82,7 +82,7 @@ $(document).ready(function(){
                     $("h1#word").text(word_text);
                     $("p#dec").text(word_desc);
                     $("p#sen").text(word_sen);
-                    $("button#next").text('Previous');
+                    $("button#next").text('Next');
                     $("button#next").attr('class', 'btn btn-primary');
                     //update duoshuo plugin
                     $("div.ds-thread").attr('data-thread-key', id+'');
