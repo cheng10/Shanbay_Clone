@@ -1,22 +1,27 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <!-- Is anyone getting tired of repeatedly entering the header over and over?? -->
-        <title>Rango</title>
-    </head>
+{% extends 'signup_base.html' %}
 
-    <body>
-        <h1>Login to Rango</h1>
+{% block content %}
 
-        <form id="login_form" method="post" action="/login/">
-            {% csrf_token %}
-            Username: <input type="text" name="username" value="" size="50" />
-            <br />
-            Password: <input type="password" name="password" value="" size="50" />
-            <br />
+    {% if message %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endif %}
 
-            <input type="submit" value="submit" />
-        </form>
+    <form id="login_form" class="form-signin" method="post" action="/login/">
+        {% csrf_token %}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="Username" class="sr-only">Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" size="50" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
 
-    </body>
-</html>
+
+{% endblock %}

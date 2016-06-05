@@ -1,23 +1,23 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Shanbay Clone</title>
-    </head>
+{% extends 'signup_base.html' %}
 
-    <body>
-        <h1>Register</h1>
+{% block content %}
+
+    <div class="'well well-lg login">
 
         {% if registered %}
-        <strong>thank you for registering!</strong>
-        <a href="/">Return to the homepage.</a><br />
+            <div class="alert alert-success" role="alert">
+                <center>
+                    <h1>Thank you for signup!</h1>
+                        <br/>
+                    <a href="/"><h2>Return to the homepage.</h2></a>
+                </center>
+            </div>
         {% else %}
-        <strong>register here!</strong><br />
 
-        <form id="user_form" method="post" action="../signup/"
+        <form id="user_form" class="form-signin" method="post" action="/signup/"
                 enctype="multipart/form-data">
-
             {% csrf_token %}
-
+            <h1 class="form-signin-heading">Please signup</h1>
             <!-- Display each form. The as_p method wraps each element in a paragraph
                  (<p>) element. This ensures each element appears on a new line,
                  making everything look neater. -->
@@ -25,8 +25,9 @@
             {{ learner_form.as_p }}
 
             <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Register" />
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Signup</button>
         </form>
         {% endif %}
-    </body>
-</html>
+    </div>
+
+{% endblock %}
