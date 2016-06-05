@@ -43,14 +43,15 @@ class Note(models.Model):
 
 class VocaBook(models.Model):
     bookname = models.CharField(max_length=200)
-    word = models.ForeignKey('Word', on_delete=models.CASCADE)
+    word = models.ManyToManyField('Word')
 
     def __unicode__(self):
         return self.bookname
 
+
 class KnownWords(models.Model):
     learner = models.ForeignKey('Learner', on_delete=models.CASCADE)
-    word = models.ForeignKey('Word', on_delete=models.CASCADE)
+    word = models.ManyToManyField('Word')
 
 
 class LearningWords(models.Model):
@@ -61,5 +62,5 @@ class LearningWords(models.Model):
         (3, 'advanced')
     )
     learner = models.ForeignKey('Learner', on_delete=models.CASCADE)
-    word = models.ForeignKey('Word', on_delete=models.CASCADE)
+    word = models.ManyToManyField('Word')
     level = models.PositiveSmallIntegerField(choices=MASTERY_LEVEL, default=0)
