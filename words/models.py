@@ -23,7 +23,6 @@ class Word(models.Model):
     text = models.CharField(max_length=200)
     desc = models.TextField()
     sentence = models.TextField()
-    note = models.ForeignKey('Note', on_delete=models.CASCADE, blank=True, null=True)
 
     def get_absolute_url(self):
         path = reverse('detail', kwargs={'id': self.id})
@@ -37,19 +36,20 @@ class Word(models.Model):
 
 
 class Note(models.Model):
+    word = models.ForeignKey('Word', related_name='word', on_delete=models.CASCADE)
     author = models.ForeignKey('Learner', on_delete=models.CASCADE)
     text = models.TextField()
 
     def __unicode__(self):
-        return self.text
+        return self.word.text+'_'+self.author.user.username
 
     class Meta:
-        ordering = ['author']
+        ordering = ['word']
 
 
 class VocaBook(models.Model):
     bookname = models.CharField(max_length=200)
-    word = models.ManyToManyField('Word')
+    word = models.ManyToManyField('Word', blank=True)
 
     def __unicode__(self):
         return self.bookname
