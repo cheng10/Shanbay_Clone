@@ -24,6 +24,6 @@ urlpatterns = [
     # url(r'^word/(?P<id>\d+)/$', 'words.views.detail', name='detail'),
     url(r'^word/(?P<word_name>[a-z]+)/$', 'words.views.word_detail', name='word_detail'),
     url(r'^signup/$', 'words.views.register', name='signup'),
-    url(r'^login/$', 'words.views.login', name='login'),
+    url(r'^login/$', 'words.views.user_login', name='login'),
     url(r'^test/$', 'words.views.test'),
 ]

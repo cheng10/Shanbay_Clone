@@ -1,4 +1,5 @@
 Django==1.8.13
 argparse==1.2.1
 django-admin-bootstrapped==2.5.7
+static3==0.7.0
 wsgiref==0.1.2
