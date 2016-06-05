@@ -49,6 +49,10 @@ def word_detail(request, word_name):
 #         raise Http404()
 #     return render(request, 'word.html', {'word': word})
 
+@login_required()
+def bdc(request):
+    return render(request, 'bdc.html', {'current_time': datetime.now()})
+
 
 def about(request):
     return render(request, 'about.html', {'current_time': datetime.now()})
@@ -137,7 +141,7 @@ def user_login(request):
 
         else:
             # Bad login details were provided. So we can't log the user in.
-            print "Invalid login details: {0}, {1}".format(username, password)
+            # print "Invalid login details: {0}, {1}".format(username, password)
             message = 'Invalid login details supplied.'
             return render(request,
                           'login.html',
@@ -162,5 +166,5 @@ def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
     # Take the user back to the homepage.
-    print "You have signed off"
+    # print "You have signed off"
     return render(request, 'home.html', {'message': 'You have signed off.'})

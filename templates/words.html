@@ -2,6 +2,13 @@
 
 {% block content %}
 
+    <script>
+        if (document.getElementById("nav_home").getAttribute("class")=="active")
+            document.getElementById("nav_home").removeAttribute("class");
+        document.getElementById("nav_words").setAttribute("class", "active");
+    </script>
+
+
     <div class="jumbotron">
         <h1> Words </h1>
         <p>

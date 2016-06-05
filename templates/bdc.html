@@ -5,11 +5,12 @@
     <script>
         if (document.getElementById("nav_home").getAttribute("class")=="active")
             document.getElementById("nav_home").removeAttribute("class");
-        document.getElementById("nav_about").setAttribute("class", "active");
+        document.getElementById("nav_bdc").setAttribute("class", "active");
     </script>
 
     <div class="jumbotron">
-        <h1> About</h1>
+        <h1>BDC</h1>
+        <p>Welcome! {{user.username}}</p>
         <p>{{current_time}}</p>
     </div>
 
