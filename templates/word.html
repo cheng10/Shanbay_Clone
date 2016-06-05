@@ -9,10 +9,14 @@
     </script>
 
     <div class="jumbotron">
-        <h1>{{word}}</h1>
+        <h1 id="word" word_id={{word.id}} >{{word}}</h1>
 {#        <p>word: {{word}}</p>#}
-        <p>description: {{word.desc}}</p>
-        <p>sentence: {{word.sentence}}</p>
+        <p id="dec">description: {{word.desc}}</p>
+        <p id="sen">sentence: {{word.sentence}}</p>
+        <p id="ctr_btn">
+            <button id="pre" type="button" class="btn btn-primary">Previous</button>
+            <button id="next" type="button" class="btn btn-primary">Next</button>
+        </p>
     </div>
 
     {% include "duoshuo.html" %}
