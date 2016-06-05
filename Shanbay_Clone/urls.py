@@ -40,7 +40,7 @@ urlpatterns = [
     url(r'^signup/$', 'words.views.register', name='signup'),
     url(r'^login/$', 'words.views.user_login', name='login'),
     url(r'^logout/$', 'words.views.user_logout', name='logout'),
-    url(r'^restricted/', 'words.views.restricted', name='restricted'),
+    url(r'^setting/', 'words.views.restricted', name='restricted'),
     # rest_api
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
