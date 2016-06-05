@@ -15,6 +15,9 @@ class Learner(models.Model):
     def __unicode__(self):
         return self.user.username
 
+    class Meta:
+        ordering = ['user']
+
 
 class Word(models.Model):
     text = models.CharField(max_length=200)
@@ -40,6 +43,9 @@ class Note(models.Model):
     def __unicode__(self):
         return self.text
 
+    class Meta:
+        ordering = ['author']
+
 
 class VocaBook(models.Model):
     bookname = models.CharField(max_length=200)
@@ -48,19 +54,43 @@ class VocaBook(models.Model):
     def __unicode__(self):
         return self.bookname
 
+    class Meta:
+        ordering = ['bookname']
+
 
 class KnownWords(models.Model):
     learner = models.ForeignKey('Learner', on_delete=models.CASCADE)
     word = models.ManyToManyField('Word')
 
+    def __unicode__(self):
+        return self.learner.user.username
 
-class LearningWords(models.Model):
+    class Meta:
+        ordering = ['learner']
+
+
+class LevelWord(models.Model):
     MASTERY_LEVEL = (
         (0, 'none'),
         (1, 'a little'),
         (2, 'intermediate'),
         (3, 'advanced')
     )
-    learner = models.ForeignKey('Learner', on_delete=models.CASCADE)
-    word = models.ManyToManyField('Word')
+    learner = models.ForeignKey('Learner', null=True, on_delete=models.CASCADE)
+    word = models.ForeignKey('Word', on_delete=models.CASCADE)
     level = models.PositiveSmallIntegerField(choices=MASTERY_LEVEL, default=0)
+
+    def __unicode__(self):
+        return self.learner.user.username+'_'+self.word.text
+
+
+class LearningWords(models.Model):
+
+    learner = models.ForeignKey('Learner', on_delete=models.CASCADE)
+    word = models.ManyToManyField('LevelWord')
+
+    def __unicode__(self):
+        return self.learner.user.username
+
+    class Meta:
+        ordering = ['learner']
