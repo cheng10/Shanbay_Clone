@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+# rest_api
+from rest_framework import routers
+from rest_api import views
 
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
     url(r'^$', 'words.views.home', name='home'),
@@ -29,4 +35,7 @@ urlpatterns = [
     url(r'^login/$', 'words.views.user_login', name='login'),
     url(r'^logout/$', 'words.views.user_logout', name='logout'),
     url(r'^restricted/', 'words.views.restricted', name='restricted'),
+    # rest_api
+    url(r'^api/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
