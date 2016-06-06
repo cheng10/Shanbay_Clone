@@ -107,8 +107,8 @@ $(document).ready(function(){
         var learnerId = document.getElementById("learner").getAttribute("learner_id");
         var wordName = document.getElementById("word").textContent;
         var msg = {
-            learnerId : learnerId,
-            wordName: wordName
+            "learnerId" : learnerId,
+            "wordName": wordName
         };
         $.ajax({
             url: 'know',

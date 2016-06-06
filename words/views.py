@@ -88,7 +88,7 @@ def bdc_know(request):
             words.word.remove(word)
             words.save()
 
-    return HttpResponse("OK")
+        return HttpResponse("OK")
 
 
 def about(request):
