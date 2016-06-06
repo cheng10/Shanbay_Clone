@@ -103,5 +103,15 @@ $(document).ready(function(){
     });
 
 
+    $("button#know").click(function () {
+        var book_id = document.getElementById("book").getAttribute("book_id");
+        var learner_id = document.getElementById("learner").getAttribute("learner_id");
+        //console.log(book_id, learner_id);
+
+
+    });
+
+
+
 
 });

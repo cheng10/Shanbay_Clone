@@ -15,7 +15,7 @@
         <div id="bdc_info">
             <h1>BDC</h1>
             <p>
-                <span>Welcome! {{learner.user.username}}!</span><br/>
+                <span id="learner" learner_id={{ learner.id }}>Welcome! {{learner.user.username}}!</span><br/>
                 <span id='book' book_id={{ learner.vocab_book.id }}>You book is {{ learner.vocab_book.bookname }}.</span><br/>
                 <span>Today You have to memorize {{ learner.words_perday }} words.</span><br/>
                 <span>You have finished {{ learner.words_finished }} words.</span><br/>
@@ -23,7 +23,7 @@
             </p>
         </div>
 
-        <div id="bdc_main" >
+        <div id="bdc_main" class='well'>
             <h1 id="word" word_id='' ></h1>
             <p id="dec">description: </p>
             <p id="sen">sentence: </p>
@@ -67,7 +67,6 @@
                         console.log(word_text);
                         var word_desc = response.desc;
                         var word_sen = response.sentence;
-                        var word_id = response.id;
                         if (xhr.status == 200 || xhr.status == 201){
                             $("h1#word").text(word_text);
                             $("p#dec").text(word_desc);
