@@ -119,10 +119,11 @@ $(document).ready(function(){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
-            success: function (result) {
+            success: function (response) {
                 $("div.alert-info").remove();
                 var ele = '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>You have learned this word.</div>'
                 $("div.starter-template").prepend(ele);
+                // console.log(response);
             },
             error: function (xhr) {
                 console.log(xhr.status);

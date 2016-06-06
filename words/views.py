@@ -82,6 +82,11 @@ def bdc_know(request):
             json_data = json.loads(request.body)
             learner_id = json_data['learnerId']
             word_name = json_data['wordName']
+            learner = Learner.objects.get(id=learner_id)
+            words = LearningWords.objects.get(learner=learner)
+            word = Word.objects.get(text=word_name)
+            words.word.remove(word)
+            words.save()
 
     return HttpResponse("OK")
 
