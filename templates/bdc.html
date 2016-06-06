@@ -3,26 +3,92 @@
 {% block content %}
 
     <script>
-        if (document.getElementById("nav_home").getAttribute("class")=="active")
+        if (document.getElementById("nav_home").getAttribute("class")=="active"){
             document.getElementById("nav_home").removeAttribute("class");
-        document.getElementById("nav_bdc").setAttribute("class", "active");
+        } else{
+            document.getElementById("nav_bdc").setAttribute("class", "active");
+        }
     </script>
+
 
     <div class="jumbotron">
         <div id="bdc_info">
             <h1>BDC</h1>
             <p>
                 <span>Welcome! {{learner.user.username}}!</span><br/>
-                <sapn>You book is {{ learner.vocab_book.bookname }}.</sapn><br/>
+                <span id='book' book_id={{ learner.vocab_book.id }}>You book is {{ learner.vocab_book.bookname }}.</span><br/>
                 <span>Today You have to memorize {{ learner.words_perday }} words.</span><br/>
                 <span>You have finished {{ learner.words_finished }} words.</span><br/>
                 <span>{{current_time}}</span>
             </p>
-
         </div>
-        <div id="bdc_main">
 
+        <div id="bdc_main" >
+            <h1 id="word" word_id='' ></h1>
+            <p id="dec">description: </p>
+            <p id="sen">sentence: </p>
+            <p id="ctr_btn">
+                <button id="not_know" type="button" class="btn btn-warning">I do not know </button>
+                <button id="know" type="button" class="btn btn-success">I know this word</button>
+            </p>
         </div>
     </div>
+
+
+
+    {#    display initail word#}
+     <script>
+        var book_id = document.getElementById("book").getAttribute("book_id");
+{#        console.log(book_id);#}
+        var bookId = parseInt(book_id);
+        $.ajax({
+            url: 'http://' + window.location.host + '/api/book/' + bookId,
+            type: "GET",
+            dataType: 'json',
+            contentType: "application/json",
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success: function (response, statusText, xhr) {
+                var words_url = response.word;
+{#                just display the first word in your wordbook#}
+                var word_url = words_url[0];
+                console.log(word_url);
+                $.ajax({
+                    url: word_url,
+                    type: "GET",
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    },
+                    success: function (response, statusText, xhr) {
+                        var word_text = response.text;
+                        console.log(word_text);
+                        var word_desc = response.desc;
+                        var word_sen = response.sentence;
+                        var word_id = response.id;
+                        if (xhr.status == 200 || xhr.status == 201){
+                            $("h1#word").text(word_text);
+                            $("p#dec").text(word_desc);
+                            $("p#sen").text(word_sen);
+{#                            //update duoshuo plugin#}
+{#                            $("div.ds-thread").attr('data-thread-key', id+'');#}
+{#                            $("div.ds-thread").attr('data-title', word_text);#}
+{#                            $("div.ds-thread").attr('data-url', '/word/'+word_text);#}
+                        }
+                    },
+                    error: function (xhr, ajaxOptions,error){
+                        console.log(xhr.status);
+                        console.log(xhr.responseText);
+                    }
+                })
+            },
+            error: function (xhr, ajaxOptions, error) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+            }
+        });
+    </script>
 
 {% endblock %}
