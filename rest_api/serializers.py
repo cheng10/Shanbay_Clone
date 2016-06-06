@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from words.models import Learner, Word, VocaBook, KnownWords, LevelWord, LearningWords
+from words.models import Learner, Word, VocaBook, KnownWords, LearningWords
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -39,13 +39,13 @@ class KnownWordsSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'learner', 'word')
 
 
-class LevelWordSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = LevelWord
-        fields = ('url', 'learner', 'word', 'level')
+# class LevelWordSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = LevelWord
+#         fields = ('url', 'word', 'level')
 
 
 class LearningWordsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = KnownWords
+        model = LearningWords
         fields = ('url', 'learner', 'word')

@@ -104,10 +104,31 @@ $(document).ready(function(){
 
 
     $("button#know").click(function () {
-        var book_id = document.getElementById("book").getAttribute("book_id");
-        var learner_id = document.getElementById("learner").getAttribute("learner_id");
-        //console.log(book_id, learner_id);
-
+        var learnerId = document.getElementById("learner").getAttribute("learner_id");
+        var wordName = document.getElementById("word").textContent;
+        var msg = {
+            learnerId : learnerId,
+            wordName: wordName
+        };
+        $.ajax({
+            url: 'know',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(msg),
+            dataType: 'text',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success: function (result) {
+                $("div.alert-info").remove();
+                var ele = '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>You have learned this word.</div>'
+                $("div.starter-template").prepend(ele);
+            },
+            error: function (xhr) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+            }
+        })
 
     });
 

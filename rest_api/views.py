@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from words.models import Learner, Word, VocaBook, KnownWords, LevelWord, LearningWords
+from words.models import Learner, Word, VocaBook, KnownWords, LearningWords
 from serializers import UserSerializer, GroupSerializer, LearnerSerializer, WordSerializer, \
-    BookSerializer, KnownWordsSerializer, LevelWordSerializer, LearningWordsSerializer
+    BookSerializer, KnownWordsSerializer, LearningWordsSerializer
 
 
 # Create your views here.
@@ -57,12 +57,12 @@ class KnowWordsViewSet(viewsets.ModelViewSet):
     serializer_class = KnownWordsSerializer
 
 
-class LevelWordViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = LevelWord.objects.all()
-    serializer_class = LevelWordSerializer
+# class LevelWordViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows groups to be viewed or edited.
+#     """
+#     queryset = LevelWord.objects.all()
+#     serializer_class = LevelWordSerializer
 
 
 class LearningWordsViewSet(viewsets.ModelViewSet):

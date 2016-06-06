@@ -26,7 +26,7 @@ router.register(r'learners', views.LearnerViewSet)
 router.register(r'word', views.WordViewSet)
 router.register(r'book', views.BookViewSet)
 router.register(r'knownWords', views.KnowWordsViewSet)
-router.register(r'levelWord', views.LevelWordViewSet)
+# router.register(r'levelWord', views.LevelWordViewSet)
 router.register(r'learningWords', views.LearningWordsViewSet)
 
 urlpatterns = [
@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^words/', 'words.views.words', name='words'),
     url(r'^bdc/', 'words.views.bdc', name='bdc'),
+    url(r'^bdc/know', 'words.views.bdc_know', name='bdc_know'),
     url(r'^about/', 'words.views.about', name='about'),
     # url(r'^word/(?P<id>\d+)/$', 'words.views.detail', name='detail'),
     url(r'^word/(?P<word_name>[a-zA-Z]+)/$', 'words.views.word_detail', name='word_detail'),

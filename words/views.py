@@ -1,3 +1,7 @@
+from __future__ import print_function
+
+import sys
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
@@ -5,9 +9,10 @@ from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
-from words.models import Word, Learner
+from words.models import Word, Learner, VocaBook, LearningWords
 from forms import UserForm, LearnerForm
 from datetime import datetime
+import json
 
 
 # Create your views here.
@@ -57,7 +62,28 @@ def bdc(request):
     except Learner.DoesNotExist:
         return HttpResponseRedirect('/admin')
     else:
-        return render(request, 'bdc.html', {'learner': learner, 'current_time': datetime.now()})
+        # learning word list initial set up
+        try:
+            l = LearningWords.objects.get(learner=learner)
+        except LearningWords.DoesNotExist:
+            l = LearningWords.objects.create(learner=learner)
+            for word in learner.vocab_book.word.all():
+                l.word.add(word)
+            l.save()
+        wordlist = l.word.all()
+        word = wordlist[0]
+        return render(request, 'bdc.html', {'learner': learner, 'word': word})
+
+
+@login_required()
+def bdc_know(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            json_data = json.loads(request.body)
+            learner_id = json_data['learnerId']
+            word_name = json_data['wordName']
+
+    return HttpResponse("OK")
 
 
 def about(request):
@@ -97,7 +123,7 @@ def register(request):
         # Print problems to the terminal.
         # They'll also be shown to the user.
         else:
-            print user_form.errors, learner_form.errors
+            print (user_form.errors, learner_form.errors)
 
     # Not a HTTP POST, so we render our form using two ModelForm instances.
     # These forms will be blank, ready for user input.

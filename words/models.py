@@ -70,25 +70,24 @@ class KnownWords(models.Model):
         ordering = ['learner']
 
 
-class LevelWord(models.Model):
-    MASTERY_LEVEL = (
-        (0, 'none'),
-        (1, 'a little'),
-        (2, 'intermediate'),
-        (3, 'advanced')
-    )
-    learner = models.ForeignKey('Learner', null=True, on_delete=models.CASCADE)
-    word = models.ForeignKey('Word', on_delete=models.CASCADE)
-    level = models.PositiveSmallIntegerField(choices=MASTERY_LEVEL, default=0)
-
-    def __unicode__(self):
-        return self.learner.user.username+'_'+self.word.text
+# class LevelWord(models.Model):
+#     MASTERY_LEVEL = (
+#         (0, 'none'),
+#         (1, 'a little'),
+#         (2, 'intermediate'),
+#         (3, 'advanced')
+#     )
+#     word = models.ForeignKey('Word', on_delete=models.CASCADE)
+#     level = models.PositiveSmallIntegerField(choices=MASTERY_LEVEL, default=0)
+#
+#     def __unicode__(self):
+#         return self.word.text+'_'+str(self.level)
 
 
 class LearningWords(models.Model):
 
     learner = models.ForeignKey('Learner', on_delete=models.CASCADE)
-    word = models.ManyToManyField('LevelWord')
+    word = models.ManyToManyField('Word')
 
     def __unicode__(self):
         return self.learner.user.username
