@@ -70,6 +70,18 @@ class KnownWords(models.Model):
         ordering = ['learner']
 
 
+class ReviewWords(models.Model):
+    learner = models.ForeignKey('Learner', on_delete=models.CASCADE)
+    word = models.ManyToManyField('Word')
+
+    def __unicode__(self):
+        return self.learner.user.username
+
+    class Meta:
+        ordering = ['learner']
+
+
+
 # class LevelWord(models.Model):
 #     MASTERY_LEVEL = (
 #         (0, 'none'),

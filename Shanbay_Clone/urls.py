@@ -28,6 +28,7 @@ router.register(r'book', views.BookViewSet)
 router.register(r'knownWords', views.KnowWordsViewSet)
 # router.register(r'levelWord', views.LevelWordViewSet)
 router.register(r'learningWords', views.LearningWordsViewSet)
+router.register(r'reviewWords', views.ReviewWordsViewSet)
 
 urlpatterns = [
     url(r'^$', 'words.views.home', name='home'),
