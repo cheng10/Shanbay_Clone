@@ -108,24 +108,39 @@ def bdc(request):
                 l.word.add(word)
             l.save()
         wordlist = l.word.all()
-        word = wordlist[0]
-        return render(request, 'bdc.html', {'learner': learner, 'word': word})
+        return render(request, 'bdc.html', {'learner': learner, "wordlist": wordlist})
 
 
 @login_required()
 def bdc_know(request):
     print('bdc_know')
-    # if request.is_ajax():
-    if request.method == 'POST':
-        json_data = json.loads(request.body)
-        learner_id = json_data['learnerId']
-        word_name = json_data['wordName']
-        learner = Learner.objects.get(id=learner_id)
-        words = LearningWords.objects.get(learner=learner)
-        word = Word.objects.get(text=word_name)
-        words.word.remove(word)
-        words.save()
-    return HttpResponse(200)
+    learner_id = None
+    if request.method == "GET":
+        learner_id = request.GET['learner_id']
+    words_finished = 0
+    if learner_id:
+        learner = Learner.objects.get(id=int(learner_id))
+        if learner:
+            words_finished = learner.words_finished + 1
+            learner.words_finished = words_finished
+            learner.save()
+    return HttpResponse(words_finished)
+
+
+# @login_required()
+# def bdc_know(request):
+#     print('bdc_know')
+#     # if request.is_ajax():
+#     if request.method == 'POST':
+#         json_data = json.loads(request.body)
+#         learner_id = json_data['learnerId']
+#         word_name = json_data['wordName']
+#         learner = Learner.objects.get(id=learner_id)
+#         words = LearningWords.objects.get(learner=learner)
+#         word = Word.objects.get(text=word_name)
+#         words.word.remove(word)
+#         words.save()
+#     return HttpResponse(200)
 
 
 def about(request):

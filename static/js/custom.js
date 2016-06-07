@@ -125,38 +125,38 @@ $(document).ready(function(){
     });
 
 
-    $("button#know").click(function () {
-        var learnerId = document.getElementById("learner").getAttribute("learner_id");
-        var wordName = document.getElementById("word").textContent;
-        var msg = {
-            "learnerId" : learnerId,
-            "wordName": wordName
-        };
-        $.ajax({
-            url: 'know',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(msg),
-            dataType: 'text',
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            },
-            success: function (xhr, response) {
-                if (xhr.status == 200 || xhr.status == 201) {
-                    $("div.alert-info").remove();
-                    var ele = '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>You have learned this word.</div>'
-                    $("div.starter-template").prepend(ele);
-                    // console.log(response);
-                    console.log(xhr.status);
-                }
-            },
-            error: function (xhr) {
-                console.log(xhr.status);
-                console.log(xhr.responseText);
-            }
-        })
-
-    });
+    // $("button#know").click(function () {
+    //     var learnerId = document.getElementById("learner").getAttribute("learner_id");
+    //     var wordName = document.getElementById("word").textContent;
+    //     var msg = {
+    //         "learnerId" : learnerId,
+    //         "wordName": wordName
+    //     };
+    //     $.ajax({
+    //         url: 'know',
+    //         type: 'POST',
+    //         contentType: 'application/json',
+    //         data: JSON.stringify(msg),
+    //         dataType: 'text',
+    //         beforeSend: function (xhr) {
+    //             xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    //         },
+    //         success: function (xhr, response) {
+    //             if (xhr.status == 200 || xhr.status == 201) {
+    //                 $("div.alert-info").remove();
+    //                 var ele = '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>You have learned this word.</div>'
+    //                 $("div.starter-template").prepend(ele);
+    //                 // console.log(response);
+    //                 console.log(xhr.status);
+    //             }
+    //         },
+    //         error: function (xhr) {
+    //             console.log(xhr.status);
+    //             console.log(xhr.responseText);
+    //         }
+    //     })
+    //
+    // });
 
 
 
@@ -175,6 +175,27 @@ $(document).ready(function(){
         var query = $(this).val();
         $.get('/suggest_word/', {suggestion: query}, function(data){
          $('#words').html(data);
+        });
+    });
+
+
+    var know_counter =0;
+    $('#know').click(function(){
+        var learnerId = $('#learner').attr("learner_id");
+        know_counter = know_counter+1;
+        console.log(learnerId);
+        $.get('/bdc_know/', {learner_id: learnerId}, function(data){
+            $('#word_count').html(data);
+            var wordFinished = $('#word_count').text();
+            var wordPerday = $('#word_perday').text();
+            var percent = parseFloat(wordFinished)/parseFloat(wordPerday)*100;
+            $(".progress-bar").attr('style', 'width:'+percent+'%');
+            // update the display word
+            // $("#word").attr('word_id', "{{ wordlist."+know_counter+".id }}");
+            // $("#word").text("{{ wordlist."+know_counter+".text }}");
+            // $("#dec").text("{{ wordlist."+know_counter+".dec }}");
+            // $("#sen").text("{{ wordlist."+know_counter+".sen }}");
+            // update the duoshuo plugin
         });
     });
 
