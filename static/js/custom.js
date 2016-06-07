@@ -129,11 +129,14 @@ $(document).ready(function(){
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
-            success: function (response) {
-                $("div.alert-info").remove();
-                var ele = '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>You have learned this word.</div>'
-                $("div.starter-template").prepend(ele);
-                // console.log(response);
+            success: function (xhr, response) {
+                if (xhr.status == 200 || xhr.status == 201) {
+                    $("div.alert-info").remove();
+                    var ele = '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>You have learned this word.</div>'
+                    $("div.starter-template").prepend(ele);
+                    // console.log(response);
+                    console.log(xhr.status);
+                }
             },
             error: function (xhr) {
                 console.log(xhr.status);
@@ -142,6 +145,16 @@ $(document).ready(function(){
         })
 
     });
+
+
+    $('#likes').click(function(){
+    var wordId = $(this).attr("data-wordid");
+        console.log(wordId);
+    $.get('/word_like/', {word_id: wordId}, function(data){
+               $('#like_count').html(data);
+               $('#likes').hide();
+    });
+});
 
 
 

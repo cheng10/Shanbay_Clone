@@ -11,14 +11,17 @@
 
     <div class="jumbotron">
         <h1> Words </h1>
-        <p>
-{#            {{  word_list }}#}
-        {% for word in word_list %}
+            <input  class="input-medium search-query" type="text" name="suggestion" value="" id="suggestion" />
+        <div id="words">
+            <p>
+            {% for word in word_list %}
             <a href="{%  url 'word_detail'  word_name=word.text %}">
                 {{ word }}
             </a>
-        {% endfor %}
-        </p>
+            {% endfor %}
+            </p>
+        </div>
+
     </div>
 
 

@@ -24,7 +24,20 @@
         </p>
     </div>
 
-{#    <a class='btn btn-info' href="/words">All Words</a>#}
+
+    <a class='btn btn-info pull-right' href="/words">All Words</a>
+
+    <p>
+    <strong id="like_count">{{ word.likes }}</strong>
+        people like this word
+    {% if user.is_authenticated %}
+        <button id="likes" data-wordid="{{word.id}}" class="btn btn-info" type="button">
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+        Like
+        </button>
+    {% endif %}
+    </p>
+
 
     {% include "duoshuo.html" %}
 

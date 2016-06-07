@@ -17,6 +17,7 @@ import json
 
 # Create your views here.
 def home(request):
+    print('home')
     # restrict access
     if request.user.is_authenticated():
         # redirect admin to admin page
@@ -34,6 +35,7 @@ def home(request):
 
 @login_required()
 def words(request):
+    print('words')
     word_list = Word.objects.all()
     return render(request, 'words.html', {'word_list': word_list})
 
@@ -47,15 +49,26 @@ def word_detail(request, word_name):
     return render(request, 'word.html', {'word': word})
 
 
-# def detail(request, id):
-#     try:
-#         word = Word.objects.get(id=str(id))
-#     except Word.DoesNotExist:
-#         raise Http404()
-#     return render(request, 'word.html', {'word': word})
+@login_required()
+def word_like(request):
+    print('word_like')
+    word_id = None
+    if request.method == "GET":
+        word_id = request.GET['word_id']
+    likes = 0
+    if word_id:
+        word = Word.objects.get(id=int(word_id))
+        if word:
+            likes = word.likes + 1
+            # print('word_like, ', likes)
+            word.likes = likes
+            word.save()
+    return HttpResponse(likes)
+
 
 @login_required()
 def bdc(request):
+    print('bdc')
     # redirect admin to admin page
     try:
         learner = Learner.objects.get(user=request.user)
@@ -77,18 +90,18 @@ def bdc(request):
 
 @login_required()
 def bdc_know(request):
-    if request.is_ajax():
-        if request.method == 'POST':
-            json_data = json.loads(request.body)
-            learner_id = json_data['learnerId']
-            word_name = json_data['wordName']
-            learner = Learner.objects.get(id=learner_id)
-            words = LearningWords.objects.get(learner=learner)
-            word = Word.objects.get(text=word_name)
-            words.word.remove(word)
-            words.save()
-
-        return HttpResponse("OK")
+    print('bdc_know')
+    # if request.is_ajax():
+    if request.method == 'POST':
+        json_data = json.loads(request.body)
+        learner_id = json_data['learnerId']
+        word_name = json_data['wordName']
+        learner = Learner.objects.get(id=learner_id)
+        words = LearningWords.objects.get(learner=learner)
+        word = Word.objects.get(text=word_name)
+        words.word.remove(word)
+        words.save()
+    return HttpResponse(200)
 
 
 def about(request):

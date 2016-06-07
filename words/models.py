@@ -24,6 +24,7 @@ class Word(models.Model):
     text = models.CharField(max_length=200)
     desc = models.TextField()
     sentence = models.TextField()
+    likes = models.PositiveSmallIntegerField(default=0)
 
     def get_absolute_url(self):
         path = reverse('detail', kwargs={'id': self.id})
