@@ -100,6 +100,12 @@ def bdc(request):
     except Learner.DoesNotExist:
         return HttpResponseRedirect('/admin')
     else:
+        # if learner did not log in within one day, reset the words_finished to 0
+        last_login = request.user.last_login.isoformat().split('T')[0]
+        now = datetime.now().isoformat().split('T')[0]
+        # print (last_login, now)
+        if last_login == now:
+            learner.words_finished = 0
         # learning word list initial set up
         try:
             l = LearningWords.objects.get(learner=learner)
