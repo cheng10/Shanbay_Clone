@@ -4,6 +4,16 @@
 $(document).ready(function(){
 
 
+    function toggleDuoshuoComments(container, word_id, word_url){
+    var el = document.createElement('div');//该div不需要设置class="ds-thread"
+    el.setAttribute('data-thread-key', word_id);//必选参数
+    el.setAttribute('data-url', word_url);//必选参数
+    //el.setAttribute('data-author-key', learner_id);//可选参数
+    DUOSHUO.EmbedThread(el);
+    jQuery(container).append(el);
+    }
+
+
 
     $("button#next").click(function(){
         // alert("The button was clicked.");
@@ -35,9 +45,9 @@ $(document).ready(function(){
                     $("button#pre").text('Previous');
                     $("button#pre").attr('class', 'btn btn-primary');
                     //update duoshuo plugin
-                    $("div.ds-thread").attr('data-thread-key', id+'');
-                    $("div.ds-thread").attr('data-title', word_text);
-                    $("div.ds-thread").attr('data-url', '/word/'+word_text);
+                    $("div#ds-thread").remove();
+                    container = $("div.starter-template");
+                    toggleDuoshuoComments(container,id,'/word/'+word_text);
 
                 }
             },
@@ -85,9 +95,9 @@ $(document).ready(function(){
                     $("button#next").text('Next');
                     $("button#next").attr('class', 'btn btn-primary');
                     //update duoshuo plugin
-                    $("div.ds-thread").attr('data-thread-key', id+'');
-                    $("div.ds-thread").attr('data-title', word_text);
-                    $("div.ds-thread").attr('data-url', '/word/'+word_text);
+                    $("div#ds-thread").remove();
+                    container = $("div.starter-template");
+                    toggleDuoshuoComments(container,id,'/word/'+word_text);
                 }
             },
             error: function (xhr, ajaxOptions, error) {
