@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
+from rest_api.permissions import IsOwnerOrReadOnly
+from rest_framework import viewsets, permissions
 from words.models import Learner, Word, VocaBook, KnownWords, LearningWords
 from serializers import UserSerializer, GroupSerializer, LearnerSerializer, WordSerializer, \
     BookSerializer, KnownWordsSerializer, LearningWordsSerializer
@@ -69,5 +70,9 @@ class LearningWordsViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
     queryset = LearningWords.objects.all()
     serializer_class = LearningWordsSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(learner=Learner.objects.get(user=self.request.user))

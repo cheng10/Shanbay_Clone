@@ -46,6 +46,8 @@ class KnownWordsSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class LearningWordsSerializer(serializers.HyperlinkedModelSerializer):
+    learner = serializers.ReadOnlyField(source='learner.user.username')
+
     class Meta:
         model = LearningWords
         fields = ('url', 'learner', 'word')
