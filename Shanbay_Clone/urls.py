@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^$', 'words.views.home', name='home'),
     url(r'^admin/', admin.site.urls),
     url(r'^words/', 'words.views.words', name='words'),
+    url(r'^suggest_word/$', 'words.views.suggest_word', name='suggest_word'),
     url(r'^bdc/', 'words.views.bdc', name='bdc'),
     url(r'^bdc/know', 'words.views.bdc_know', name='bdc_know'),
     url(r'^about/', 'words.views.about', name='about'),

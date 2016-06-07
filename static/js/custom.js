@@ -147,15 +147,24 @@ $(document).ready(function(){
     });
 
 
+
     $('#likes').click(function(){
     var wordId = $(this).attr("data-wordid");
         console.log(wordId);
-    $.get('/word_like/', {word_id: wordId}, function(data){
+        $.get('/word_like/', {word_id: wordId}, function(data){
                $('#like_count').html(data);
                $('#likes').hide();
+        });
     });
-});
 
+
+
+    $('#suggestion').keyup(function(){
+        var query = $(this).val();
+        $.get('/suggest_word/', {suggestion: query}, function(data){
+         $('#words').html(data);
+        });
+    });
 
 
 

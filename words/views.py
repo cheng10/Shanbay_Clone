@@ -66,6 +66,30 @@ def word_like(request):
     return HttpResponse(likes)
 
 
+def get_word_list(max_results=0, starts_with=''):
+    word_list = []
+    if starts_with:
+        word_list = Word.objects.filter(text__istartswith=starts_with)
+    if starts_with == '':
+        word_list = Word.objects.all()
+    if max_results > 0:
+        if word_list.count > max_results:
+            word_list = word_list[:max_results]
+    return word_list
+
+
+def suggest_word(request):
+    word_list = []
+    starts_with = ''
+    if request.method == 'GET':
+        starts_with = request.GET['suggestion']
+    word_list = get_word_list(8, starts_with)
+    # if nothing in the search box, return all words
+    if starts_with == '':
+        word_list = get_word_list(0, starts_with)
+    return render(request, 'suggest_word.html', {'word_list': word_list})
+
+
 @login_required()
 def bdc(request):
     print('bdc')
