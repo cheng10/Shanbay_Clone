@@ -37,18 +37,24 @@ $(document).ready(function(){
                 var word_text = response.text;
                 var word_desc = response.desc;
                 var word_sen = response.sentence;
+                var word_likes = response.likes;
                 if (xhr.status == 200 || xhr.status == 201){
+                    //update word info
                     $("h1#word").attr('word_id',id+"");
                     $("h1#word").text(word_text);
                     $("p#dec").text(word_desc);
                     $("p#sen").text(word_sen);
+                    //update button text
                     $("button#pre").text('Previous');
                     $("button#pre").attr('class', 'btn btn-primary');
                     //update duoshuo plugin
                     $("div#ds-thread").remove();
                     container = $("div.starter-template");
                     toggleDuoshuoComments(container,id,'/word/'+word_text);
-
+                    //update my like button
+                    $('#likes').show();
+                    $("strong#like_count").text(word_likes);
+                    $("button#likes").attr('data-wordid', id+'');
                 }
             },
             error: function (xhr, ajaxOptions, error) {
@@ -87,17 +93,23 @@ $(document).ready(function(){
                 var word_text = response.text;
                 var word_desc = response.desc;
                 var word_sen = response.sentence;
+                var word_likes = response.likes;
                 if (xhr.status == 200 || xhr.status == 201){
                     $("h1#word").attr('word_id',id+"");
                     $("h1#word").text(word_text);
                     $("p#dec").text(word_desc);
                     $("p#sen").text(word_sen);
+                    //update button text
                     $("button#next").text('Next');
                     $("button#next").attr('class', 'btn btn-primary');
                     //update duoshuo plugin
                     $("div#ds-thread").remove();
                     container = $("div.starter-template");
                     toggleDuoshuoComments(container,id,'/word/'+word_text);
+                    //update my like button
+                    $('#likes').show();
+                    $("strong#like_count").text(word_likes);
+                    $("button#likes").attr('data-wordid', id+'');
                 }
             },
             error: function (xhr, ajaxOptions, error) {

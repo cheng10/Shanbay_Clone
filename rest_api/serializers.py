@@ -24,7 +24,7 @@ class LearnerSerializer(serializers.HyperlinkedModelSerializer):
 class WordSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Word
-        fields = ('url', 'text', 'desc', 'sentence')
+        fields = ('url', 'text', 'desc', 'sentence', 'likes')
 
 
 class BookSerializer(serializers.HyperlinkedModelSerializer):
