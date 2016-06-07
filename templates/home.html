@@ -3,11 +3,15 @@
 {% block content %}
 
 
-
+    <!--suppress ALL -->
     <div class="jumbotron">
         <h1> Home </h1>
         <p>Welcome! {{user.username}}</p>
+        <p id="time"></p>
     </div>
 
+    <script>
+    document.getElementById("time").innerHTML = new Date();
+    </script>
 
 {% endblock %}
