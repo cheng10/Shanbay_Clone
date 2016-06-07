@@ -4,6 +4,10 @@
 $(document).ready(function(){
 
 
+    $("#btn-fin").hide();
+
+
+
     function toggleDuoshuoComments(container, word_id, word_url){
     var el = document.createElement('div');//该div不需要设置class="ds-thread"
     el.setAttribute('data-thread-key', word_id);//必选参数
@@ -23,7 +27,7 @@ $(document).ready(function(){
         var id = parseInt(word_id);
         id = id +1;
 
-        console.log(id);
+        // console.log(id);
         $.ajax({
             url: 'http://' + window.location.host + '/api/word/' + id,
             type: "GET",
@@ -79,7 +83,7 @@ $(document).ready(function(){
         var id = parseInt(word_id);
         id = id -1;
 
-        console.log(id);
+        // console.log(id);
         $.ajax({
             url: 'http://' + window.location.host + '/api/word/' + id,
             type: "GET",
@@ -182,20 +186,35 @@ $(document).ready(function(){
     var know_counter =0;
     $('#know').click(function(){
         var learnerId = $('#learner').attr("learner_id");
+        var bookId = $('#book').attr("book_id");
         know_counter = know_counter+1;
         console.log(learnerId);
         $.get('/bdc_know/', {learner_id: learnerId}, function(data){
             $('#word_count').html(data);
+            // display the info alert
+            $("div.alert-info").remove();
+            var ele = '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>You have learned a word.</div>'
+            $("div.starter-template").prepend(ele);
+            //
             var wordFinished = $('#word_count').text();
             var wordPerday = $('#word_perday').text();
             var percent = parseFloat(wordFinished)/parseFloat(wordPerday)*100;
             $(".progress-bar").attr('style', 'width:'+percent+'%');
+            if (percent == 100) {
+                $('#know').hide();
+                $('#not_know').hide();
+                $('#btn-fin').show();
+            }
             // update the display word
             // $("#word").attr('word_id', "{{ wordlist."+know_counter+".id }}");
             // $("#word").text("{{ wordlist."+know_counter+".text }}");
             // $("#dec").text("{{ wordlist."+know_counter+".dec }}");
             // $("#sen").text("{{ wordlist."+know_counter+".sen }}");
+
             // update the duoshuo plugin
+            // $("div#ds-thread").remove();
+            // container = $("div.starter-template");
+            // toggleDuoshuoComments(container,id,'/word/'+word_text);
         });
     });
 

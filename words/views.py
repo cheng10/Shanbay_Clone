@@ -93,6 +93,7 @@ def suggest_word(request):
 @login_required()
 def bdc(request):
     print('bdc')
+    message = ''
     # redirect admin to admin page
     try:
         learner = Learner.objects.get(user=request.user)
@@ -108,7 +109,11 @@ def bdc(request):
                 l.word.add(word)
             l.save()
         wordlist = l.word.all()
-        return render(request, 'bdc.html', {'learner': learner, "wordlist": wordlist})
+        # if learner finished all the word today, redirect him to home
+        if learner.words_finished >= learner.words_perday:
+            message = "You have finished all the words today. Good Job!"
+            return render(request, 'home.html', {'learner': learner, "wordlist": wordlist, "message": message})
+        return render(request, 'bdc.html', {'learner': learner, "wordlist": wordlist, "message": message})
 
 
 @login_required()
@@ -180,7 +185,7 @@ def register(request):
         # Print problems to the terminal.
         # They'll also be shown to the user.
         else:
-            print (user_form.errors, learner_form.errors)
+            print(user_form.errors, learner_form.errors)
 
     # Not a HTTP POST, so we render our form using two ModelForm instances.
     # These forms will be blank, ready for user input.
@@ -195,14 +200,13 @@ def register(request):
 
 
 def user_login(request):
-
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         # Gather the username and password provided by the user.
         # This information is obtained from the login form.
-                # We use request.POST.get('<variable>') as opposed to request.POST['<variable>'],
-                # because the request.POST.get('<variable>') returns None, if the value does not exist,
-                # while the request.POST['<variable>'] will raise key error exception
+        # We use request.POST.get('<variable>') as opposed to request.POST['<variable>'],
+        # because the request.POST.get('<variable>') returns None, if the value does not exist,
+        # while the request.POST['<variable>'] will raise key error exception
         username = request.POST.get('username')
         password = request.POST.get('password')
 
