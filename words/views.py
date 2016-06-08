@@ -119,6 +119,11 @@ def bdc(request):
                 l.word.add(word)
             l.save()
         wordlist = l.word.all().order_by('?')
+        # if learner finished all the word in the book, just redirect him to home page
+        print ("words in the learning list: ", l.word.count())
+        if l.word.count() <= 0:
+            message = "You have finished all the words in the book. Good Job!"
+            return render(request, 'home.html', {'learner': learner, "wordlist": wordlist, "message": message})
         # if learner finished all the word today, redirect him to home
         if learner.words_finished >= learner.words_perday:
             message = "You have finished all the words today. Good Job!"
