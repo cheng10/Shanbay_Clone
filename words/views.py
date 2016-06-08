@@ -17,7 +17,7 @@ import json
 
 # Create your views here.
 def home(request):
-    print('home')
+    # print('home')
     # restrict access
     if request.user.is_authenticated():
         # redirect admin to admin page
@@ -35,7 +35,7 @@ def home(request):
 
 @login_required()
 def words(request):
-    print('words')
+    # print('words')
     word_list = Word.objects.all()
     return render(request, 'words.html', {'word_list': word_list})
 
@@ -51,7 +51,7 @@ def word_detail(request, word_name):
 
 @login_required()
 def word_like(request):
-    print('word_like')
+    # print('word_like')
     word_id = None
     if request.method == "GET":
         word_id = request.GET['word_id']
@@ -92,7 +92,7 @@ def suggest_word(request):
 
 @login_required()
 def bdc(request):
-    print('bdc')
+    # print('bdc')
     message = ''
     # redirect admin to admin page
     try:
@@ -124,18 +124,33 @@ def bdc(request):
 
 @login_required()
 def bdc_know(request):
-    print('bdc_know')
+    # print('bdc_know')
     learner_id = None
+    word_id = None
     if request.method == "GET":
         learner_id = request.GET['learner_id']
+        word_id = request.GET['word_id']
     words_finished = 0
+    word = None
+    learning_words = None
+    learner = None
+    wordlist = None
+    message = ''
     if learner_id:
         learner = Learner.objects.get(id=int(learner_id))
         if learner:
+            learning_words = LearningWords.objects.get(learner=learner)
             words_finished = learner.words_finished + 1
             learner.words_finished = words_finished
             learner.save()
-    return HttpResponse(words_finished)
+    if word_id:
+        word = Word.objects.get(id=int(word_id))
+        if word:
+            learning_words.word.remove(word)
+            learning_words.save()
+            wordlist = learning_words.word.all()
+
+    return render(request, 'bdc_update.html', {'learner': learner, "wordlist": wordlist, })
 
 
 # @login_required()

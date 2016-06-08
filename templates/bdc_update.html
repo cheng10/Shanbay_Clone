@@ -1,0 +1,24 @@
+<div id="bdc_main">
+        <div id="bdc_info">
+            <h1>BDC</h1>
+            <p>
+                <span id="learner" learner_id={{ learner.id }} wordList_id={{ wordList_id }}>Welcome! {{learner.user.username}}!</span><br/>
+                <span id='book' book_id={{ learner.vocab_book.id }}>You book is {{ learner.vocab_book.bookname }}.</span><br/>
+                <span>Today You have to memorize
+                    <strong id="word_perday">
+                        {{ learner.words_perday }}
+                    </strong>words.
+                </span><br/>
+                <span>You have finished
+                    <strong id="word_count">{{ learner.words_finished }}
+                    </strong>
+                    words.
+                </span><br/>
+            </p>
+        </div>
+        <div id="bdc_word" class='well'>
+            <h1 id="word" word_id={{ wordlist.0.id }} >{{ wordlist.0.text }}</h1>
+            <p id="dec">description: {{ wordlist.0.desc }}</p>
+            <p id="sen">sentence: {{ wordlist.0.sentence }}</p>
+        </div>
+</div>

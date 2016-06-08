@@ -12,6 +12,7 @@
 
 
     <div class="jumbotron">
+    <div id="bdc_main">
         <div id="bdc_info">
             <h1>BDC</h1>
             <p>
@@ -29,11 +30,13 @@
                 </span><br/>
             </p>
         </div>
-
-        <div id="bdc_main" class='well'>
+        <div id="bdc_word" class='well'>
             <h1 id="word" word_id={{ wordlist.0.id }} >{{ wordlist.0.text }}</h1>
             <p id="dec">description: {{ wordlist.0.desc }}</p>
             <p id="sen">sentence: {{ wordlist.0.sentence }}</p>
+        </div>
+    </div>
+
             <p id="ctr_btn">
                 <button id="not_know" type="button" class="btn btn-warning">I do not know </button>
                 <button id="know" type="button" class="btn btn-success">I know this word</button>
@@ -41,7 +44,7 @@
                     <input class="btn btn-primary" type="submit" value="Finish!">
                 </form>
             </p>
-        </div>
+
     </div>
 
     <div class="progress">
