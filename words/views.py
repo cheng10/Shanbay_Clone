@@ -118,7 +118,7 @@ def bdc(request):
             for word in learner.vocab_book.word.all():
                 l.word.add(word)
             l.save()
-        wordlist = l.word.all()
+        wordlist = l.word.all().order_by('?')
         # if learner finished all the word today, redirect him to home
         if learner.words_finished >= learner.words_perday:
             message = "You have finished all the words today. Good Job!"
@@ -158,19 +158,19 @@ def bdc_know(request):
                 print ("know learningword")
                 learning_words.word.remove(word)
                 learning_words.save()
-                wordlist = learning_words.word.all()
+                wordlist = learning_words.word.all().order_by('?')
             elif review_words.word.filter(id=word.id).exists():
                 print ("know reviewword")
                 review_words.word.remove(word)
                 review_words.save()
-                wordlist = review_words.word.all()
+                wordlist = review_words.word.all().order_by('?')
             print ("remove word")
             # known_words.word.add(word)
             # print ("add known")
             # known_words.save()
             words_perday = learner.words_perday
             words_finished = learner.words_finished
-            review_list = review_words.word.all()
+            review_list = review_words.word.all().order_by('?')
             if review_words.word.count() >= (words_perday-words_finished):
                 wordlist = review_list
     return render(request, 'bdc_update.html', {'learner': learner, "wordlist": wordlist, })
@@ -209,24 +209,15 @@ def bdc_not_know(request):
             # if no more learning_words, only review_words
             elif review_words.word.filter(id=word.id).exists():
                 # try to avoid showing the same word when not_know being clicked
-                rand = random.randint(1, 4)
-                if rand == 1:
-                    review_list = review_words.word.all().order_by("-text")
-                elif rand == 2:
-                    review_list = review_words.word.all().order_by("text")
-                elif rand == 3:
-                    review_list = review_words.word.all().order_by("-id")
-                else:
-                    review_list = review_words.word.all().order_by("id")
-
+                review_list = review_words.word.all().order_by('?')
                 wordlist = review_list
                 print (review_words.word.count())
                 print (words_perday)
                 print (words_finished)
                 return render(request, 'bdc_update.html', {'learner': learner, "wordlist": wordlist, })
 
-            review_list = review_words.word.all()
-            wordlist = learning_words.word.all()
+            review_list = review_words.word.all().order_by('?')
+            wordlist = learning_words.word.all().order_by('?')
             # if review_words reach today's max
             print (review_words.word.count())
             print (words_perday)
