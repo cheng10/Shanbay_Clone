@@ -5,14 +5,3 @@
 3. 用户背单词过程中能够添加笔记， 也可以查看其他用户共享的笔记
 4. 用户背单词过程中，可以看到单词，单词的解释和例句。
 基于Python和Django框架， Web页面基于bootstrap
-
-#Models
-Learner: user(username, passwd), vocab_book, words_perday
-Word: id, text, desc, sentence, note
-Note: id, text, author
-VocaBook: bookname, word
-KnownWords: learner, word
-LearningWords: learner, word, level, days
-
-#Note
-Maybe a repeated days counter to count
