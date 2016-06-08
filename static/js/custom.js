@@ -165,7 +165,7 @@ $(document).ready(function(){
 
 
     $('#likes').click(function(){
-    var wordId = $(this).attr("data-wordid");
+        var wordId = $(this).attr("data-wordid");
         console.log(wordId);
         $.get('/word_like/', {word_id: wordId}, function(data){
                $('#like_count').html(data);
@@ -183,12 +183,10 @@ $(document).ready(function(){
     });
 
 
-    var know_counter =0;
     $('#know').click(function(){
         var learnerId = $('#learner').attr("learner_id");
         var wordId = $('#word').attr("word_id");
         var wordText = $('#word').text();
-        know_counter = know_counter+1;
         console.log(learnerId);
         $.get('/bdc_know/', {learner_id: learnerId, word_id: wordId}, function(data){
             // update the word display
@@ -209,6 +207,29 @@ $(document).ready(function(){
                 $('#not_know').hide();
                 $('#btn-fin').show();
             }
+            // update the duoshuo plugin
+            var wordId = $('#word').attr("word_id");
+            var wordText = $('#word').text();
+            $("div#ds-thread").remove();
+            container = $("div.starter-template");
+            toggleDuoshuoComments(container,wordId,'/word/'+wordText);
+        });
+    });
+
+
+
+
+    $('#not_know').click(function(){
+        var learnerId = $('#learner').attr("learner_id");
+        var wordId = $('#word').attr("word_id");
+        $.get('/bdc_not_know/', {learner_id: learnerId, word_id: wordId}, function(data){
+            // update the word display
+            $('#bdc_main').html(data);
+            $('#btn-fin').hide();
+            // display the info alert
+            $("div.alert-info").remove();
+            var ele = '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>We will review that word later.</div>'
+            $("div.starter-template").prepend(ele);
             // update the duoshuo plugin
             var wordId = $('#word').attr("word_id");
             var wordText = $('#word').text();

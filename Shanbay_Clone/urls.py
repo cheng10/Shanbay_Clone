@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^suggest_word/$', 'words.views.suggest_word', name='suggest_word'),
     url(r'^bdc/', 'words.views.bdc', name='bdc'),
     url(r'^bdc_know/$', 'words.views.bdc_know', name='bdc_know'),
+    url(r'^bdc_not_know/$', 'words.views.bdc_not_know', name='bdc_not_know'),
     url(r'^about/', 'words.views.about', name='about'),
     # url(r'^word/(?P<id>\d+)/$', 'words.views.detail', name='detail'),
     url(r'^word/(?P<word_name>[a-zA-Z]+)/$', 'words.views.word_detail', name='word_detail'),

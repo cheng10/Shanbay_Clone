@@ -62,7 +62,7 @@ class VocaBook(models.Model):
 
 class KnownWords(models.Model):
     learner = models.ForeignKey('Learner', on_delete=models.CASCADE)
-    word = models.ManyToManyField('Word')
+    word = models.ManyToManyField('Word', blank=True, related_name='known_words')
 
     def __unicode__(self):
         return self.learner.user.username
@@ -73,7 +73,7 @@ class KnownWords(models.Model):
 
 class ReviewWords(models.Model):
     learner = models.ForeignKey('Learner', on_delete=models.CASCADE)
-    word = models.ManyToManyField('Word')
+    word = models.ManyToManyField('Word', blank=True, related_name='review_words')
 
     def __unicode__(self):
         return self.learner.user.username
@@ -100,7 +100,7 @@ class ReviewWords(models.Model):
 class LearningWords(models.Model):
 
     learner = models.ForeignKey('Learner', on_delete=models.CASCADE)
-    word = models.ManyToManyField('Word')
+    word = models.ManyToManyField('Word', blank=True, related_name='learning_words')
 
     def __unicode__(self):
         return self.learner.user.username

@@ -9,7 +9,7 @@ from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
-from words.models import Word, Learner, VocaBook, LearningWords
+from words.models import Word, Learner, VocaBook, LearningWords, ReviewWords, KnownWords
 from forms import UserForm, LearnerForm
 from datetime import datetime
 import json
@@ -104,9 +104,12 @@ def bdc(request):
         last_login = request.user.last_login.isoformat().split('T')[0]
         now = datetime.now().isoformat().split('T')[0]
         # print (last_login, now)
-        if last_login == now:
+        if last_login != now:
             learner.words_finished = 0
+            learner.save()
         # learning word list initial set up
+        KnownWords.objects.get_or_create(learner=learner)
+        ReviewWords.objects.get_or_create(learner=learner)
         try:
             l = LearningWords.objects.get(learner=learner)
         except LearningWords.DoesNotExist:
@@ -133,23 +136,92 @@ def bdc_know(request):
     words_finished = 0
     word = None
     learning_words = None
+    review_words = None
+    known_words = None
     learner = None
     wordlist = None
-    message = ''
     if learner_id:
         learner = Learner.objects.get(id=int(learner_id))
         if learner:
             learning_words = LearningWords.objects.get(learner=learner)
+            review_words = ReviewWords.objects.get(learner=learner)
+            # known_words = KnownWords.objects.get(learner=learner)
+            # print (known_words)
             words_finished = learner.words_finished + 1
             learner.words_finished = words_finished
             learner.save()
     if word_id:
         word = Word.objects.get(id=int(word_id))
         if word:
-            learning_words.word.remove(word)
-            learning_words.save()
-            wordlist = learning_words.word.all()
+            if learning_words.word.filter(id=word.id).exists():
+                print ("know learningword")
+                learning_words.word.remove(word)
+                learning_words.save()
+                wordlist = learning_words.word.all()
+            elif review_words.word.filter(id=word.id).exists():
+                print ("know reviewword")
+                review_words.word.remove(word)
+                review_words.save()
+                wordlist = review_words.word.all()
+            print ("remove word")
+            # known_words.word.add(word)
+            # print ("add known")
+            # known_words.save()
+            words_perday = learner.words_perday
+            words_finished = learner.words_finished
+            review_list = review_words.word.all()
+            if review_words.word.count() >= (words_perday-words_finished):
+                wordlist = review_list
+    return render(request, 'bdc_update.html', {'learner': learner, "wordlist": wordlist, })
 
+
+@login_required()
+def bdc_not_know(request):
+    # print('bdc_know')
+    learner_id = None
+    word_id = None
+    if request.method == "GET":
+        learner_id = request.GET['learner_id']
+        word_id = request.GET['word_id']
+    words_finished = 0
+    words_perday = 0
+    word = None
+    learning_words = None
+    review_words = None
+    learner = None
+    wordlist = None
+    if learner_id:
+        learner = Learner.objects.get(id=int(learner_id))
+        if learner:
+            learning_words = LearningWords.objects.get(learner=learner)
+            review_words = ReviewWords.objects.get(learner=learner)
+            words_finished = learner.words_finished
+            words_perday = learner.words_perday
+    if word_id:
+        word = Word.objects.get(id=int(word_id))
+        if word:
+            if learning_words.word.filter(id=word.id).exists():
+                learning_words.word.remove(word)
+                review_words.word.add(word)
+                learning_words.save()
+                review_words.save()
+            # if no more learning_words, only review_words
+            elif review_words.word.filter(id=word.id).exists():
+                review_list = review_words.word.all()
+                wordlist = review_list
+                print (review_words.word.count())
+                print (words_perday)
+                print (words_finished)
+                return render(request, 'bdc_update.html', {'learner': learner, "wordlist": wordlist, })
+
+            review_list = review_words.word.all()
+            wordlist = learning_words.word.all()
+            # if review_words reach today's max
+            print (review_words.word.count())
+            print (words_perday)
+            print (words_finished)
+            if review_words.word.count() >= (words_perday-words_finished):
+                wordlist = review_list
     return render(request, 'bdc_update.html', {'learner': learner, "wordlist": wordlist, })
 
 
