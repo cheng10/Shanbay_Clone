@@ -3,24 +3,15 @@ A simple clone of the famous English words memorizing app Shanbay, based on Pyth
 
 
 ## Installation
-1. Git clone the project folder
+1. Git clone the project folder```git clone https://github.com/cheng10/Shanbay_Clone.git; cd Shanbay_Clone```
 
-```git clone https://github.com/cheng10/Shanbay_Clone.git; cd Shanbay_Clone```
+2. Install the required packages```pip install -r requirements.txt```
 
-2. Install the required packages
+3. Initialize the database```python manage.py migrate```
 
-```pip install -r requirements.txt```
+4. Populate the database with test data```python populate.py```
 
-3. Initialize the database
-```python manage.py migrate```
-
-4. Populate the database with test data
-
-```python populate.py```
-
-5. Run the development server
-
-```python manage.py runserver```
+5. Run the development server```python manage.py runserver```
 
 6. Go to localhost:8000 in you web browser
 
