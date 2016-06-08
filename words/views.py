@@ -13,6 +13,7 @@ from words.models import Word, Learner, VocaBook, LearningWords, ReviewWords, Kn
 from forms import UserForm, LearnerForm
 from datetime import datetime
 import json
+import random
 
 
 # Create your views here.
@@ -207,7 +208,17 @@ def bdc_not_know(request):
                 review_words.save()
             # if no more learning_words, only review_words
             elif review_words.word.filter(id=word.id).exists():
-                review_list = review_words.word.all()
+                # try to avoid showing the same word when not_know being clicked
+                rand = random.randint(1, 4)
+                if rand == 1:
+                    review_list = review_words.word.all().order_by("-text")
+                elif rand == 2:
+                    review_list = review_words.word.all().order_by("text")
+                elif rand == 3:
+                    review_list = review_words.word.all().order_by("-id")
+                else:
+                    review_list = review_words.word.all().order_by("id")
+
                 wordlist = review_list
                 print (review_words.word.count())
                 print (words_perday)
