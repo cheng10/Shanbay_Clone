@@ -53,6 +53,15 @@
 
     {% include "duoshuo_bdc.html" %}
 
+
+    <script>
+    //display initial progress bar
+    var wordFinished = $('#word_count').text();
+    var wordPerday = $('#word_perday').text();
+    var percent = parseFloat(wordFinished)/parseFloat(wordPerday)*100;
+    $(".progress-bar").attr('style', 'width:'+percent+'%');
+    </script>
+
     {#    display initail word#}
 {#     <script>#}
 {#        var book_id = document.getElementById("book").getAttribute("book_id");#}
