@@ -120,7 +120,7 @@ def bdc(request):
             l.save()
         wordlist = l.word.all().order_by('?')
         # if learner finished all the word in the book, just redirect him to home page
-        print ("words in the learning list: ", l.word.count())
+        print("words in the learning list: ", l.word.count())
         if l.word.count() <= 0:
             message = "You have finished all the words in the book. Good Job!"
             return render(request, 'home.html', {'learner': learner, "wordlist": wordlist, "message": message})
@@ -128,7 +128,8 @@ def bdc(request):
         if learner.words_finished >= learner.words_perday:
             message = "You have finished all the words today. Good Job!"
             return render(request, 'home.html', {'learner': learner, "wordlist": wordlist, "message": message})
-        return render(request, 'bdc.html', {'learner': learner, "wordlist": wordlist, "message": message})
+        return render(request, 'bdc.html', {'learner': learner, "wordlist": wordlist, "message": message,
+                                            "learning_word_count": l.word.count()})
 
 
 @login_required()
@@ -146,10 +147,18 @@ def bdc_know(request):
     known_words = None
     learner = None
     wordlist = None
+    l = None
     if learner_id:
         learner = Learner.objects.get(id=int(learner_id))
         if learner:
             learning_words = LearningWords.objects.get(learner=learner)
+
+            # if learner finished all the word in the book, just redirect him to home page
+            l = learning_words
+            print("words in the learning list: ", l.word.count())
+            if l.word.count() <= 0:
+                message = "You have finished all the words in the book. Good Job!"
+
             review_words = ReviewWords.objects.get(learner=learner)
             # known_words = KnownWords.objects.get(learner=learner)
             # print (known_words)
@@ -160,25 +169,26 @@ def bdc_know(request):
         word = Word.objects.get(id=int(word_id))
         if word:
             if learning_words.word.filter(id=word.id).exists():
-                print ("know learningword")
+                print("know learningword")
                 learning_words.word.remove(word)
                 learning_words.save()
                 wordlist = learning_words.word.all().order_by('?')
             elif review_words.word.filter(id=word.id).exists():
-                print ("know reviewword")
+                print("know reviewword")
                 review_words.word.remove(word)
                 review_words.save()
                 wordlist = review_words.word.all().order_by('?')
-            print ("remove word")
+            print("remove word")
             # known_words.word.add(word)
             # print ("add known")
             # known_words.save()
             words_perday = learner.words_perday
             words_finished = learner.words_finished
             review_list = review_words.word.all().order_by('?')
-            if review_words.word.count() >= (words_perday-words_finished):
+            if review_words.word.count() >= (words_perday - words_finished):
                 wordlist = review_list
-    return render(request, 'bdc_update.html', {'learner': learner, "wordlist": wordlist, })
+    return render(request, 'bdc_update.html',
+                  {'learner': learner, "wordlist": wordlist, "learning_word_count": l.word.count()})
 
 
 @login_required()
@@ -216,20 +226,20 @@ def bdc_not_know(request):
                 # try to avoid showing the same word when not_know being clicked
                 review_list = review_words.word.all().order_by('?')
                 wordlist = review_list
-                print (review_words.word.count())
-                print (words_perday)
-                print (words_finished)
-                return render(request, 'bdc_update.html', {'learner': learner, "wordlist": wordlist, })
+                print(review_words.word.count())
+                print(words_perday)
+                print(words_finished)
+                return render(request, 'bdc_update.html', {'learner': learner, "wordlist": wordlist,})
 
             review_list = review_words.word.all().order_by('?')
             wordlist = learning_words.word.all().order_by('?')
             # if review_words reach today's max
-            print (review_words.word.count())
-            print (words_perday)
-            print (words_finished)
-            if review_words.word.count() >= (words_perday-words_finished):
+            print(review_words.word.count())
+            print(words_perday)
+            print(words_finished)
+            if review_words.word.count() >= (words_perday - words_finished):
                 wordlist = review_list
-    return render(request, 'bdc_update.html', {'learner': learner, "wordlist": wordlist, })
+    return render(request, 'bdc_update.html', {'learner': learner, "wordlist": wordlist,})
 
 
 # @login_required()

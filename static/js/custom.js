@@ -187,6 +187,7 @@ $(document).ready(function(){
         var learnerId = $('#learner').attr("learner_id");
         var wordId = $('#word').attr("word_id");
         var wordText = $('#word').text();
+        var lCount = $('#lcount').attr("count");
         console.log(learnerId);
         $.get('/bdc_know/', {learner_id: learnerId, word_id: wordId}, function(data){
             // update the word display
@@ -202,7 +203,12 @@ $(document).ready(function(){
             var percent = parseFloat(wordFinished)/parseFloat(wordPerday)*100;
             $(".progress-bar").attr('style', 'width:'+percent+'%');
             // update botton
-            if (percent == 100) {
+            if (percent == 100)  {
+                $('#know').hide();
+                $('#not_know').hide();
+                $('#btn-fin').show();
+            }
+            if (parseInt(lCount) <= 1) {
                 $('#know').hide();
                 $('#not_know').hide();
                 $('#btn-fin').show();
